@@ -35,6 +35,7 @@ public class EstudianteService {
         estu.nombre = estudiante.nombre;
         estu.apellido = estudiante.apellido;
         estu.fechaNacimiento = estudiante.fechaNacimiento;
+        estu.provincia = estudiante.provincia;
         // se actualiza automaticamente por dirty checking
     }
 
@@ -50,11 +51,23 @@ public class EstudianteService {
         if (estudiante.fechaNacimiento != null) {
             estu.fechaNacimiento = estudiante.fechaNacimiento;
         }
+        if(estudiante.provincia != null) {
+            estu.provincia = estudiante.provincia;
+        }   
         // se actualiza automaticamente por dirty checking
     }
     @Transactional
     public void eliminarEstudiante(Integer id) {
         estudianteRepository.deleteById(id.longValue());
     }
+
+   /* public List<Estudiante> buscarPorProvincia(String provincia) {
+        return estudianteRepository.find("provincia", provincia).list();
+    }*/
+
+     public List<Estudiante> buscarPorProvincia(String provincia, String genero) {
+        return estudianteRepository.find("provincia = ?1 and genero = ?2", provincia, genero).list();
+    }
+
 
 }
