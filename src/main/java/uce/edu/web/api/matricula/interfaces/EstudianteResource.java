@@ -20,9 +20,11 @@ public class EstudianteResource {
     EstudianteService estudianteService;
 
     @GET
-    @Path("/todos")
+    @Path("")
     public List<Estudiante> listarTodos() {
+        System.out.println("listarTodos");
         return estudianteService.listarTodos();
+        
     }
 
     @GET
@@ -32,32 +34,33 @@ public class EstudianteResource {
     }
 
     @POST
-    @Path("/guardar")
+    @Path("")
     public void guardarEstudiante(Estudiante estudiante) {
         estudianteService.crearEstudiante(estudiante);
     }
 
     @PUT
-    @Path("/actualizar/{id}")
+    @Path("/{id}")
     public void actualizarEstudiante(@PathParam("id") Integer iden, Estudiante estudiante) {
         estudianteService.actualizarEstudiante(iden, estudiante);
     }
 
     @PATCH
-    @Path("/actualizarParcial/{id}")
+    @Path("/{id}")
     public void actualizarEstudianteParcial(@PathParam("id") Integer iden, Estudiante estudiante) {
         estudianteService.actualizarEstudianteParcial(iden, estudiante);
     }
 
     @DELETE
-    @Path("/borrar/{id}")
+    @Path("/{id}")
     public void borrarEstudiante(@PathParam("id") Integer iden) {
         estudianteService.eliminarEstudiante(iden);
     }
 
     @GET
-    @Path("/buscarProvincia")
+    @Path("/provincia/genero")
     public List<Estudiante> buscarPorProvincia(@QueryParam("provincia") String provincia, @QueryParam("genero") String genero) {
+       System.out.println("buscarPorProvincia: " + provincia + ", genero: " + genero);
         return estudianteService.buscarPorProvincia(provincia, genero);
     }
 

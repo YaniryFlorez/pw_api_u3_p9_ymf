@@ -20,13 +20,13 @@ public class MateriaResource {
     MateriaService materiaService;
 
     @POST
-    @Path("/guardar")
+    @Path("")
     public void guardarMateria(Materia materia) {
         materiaService.crearMateria(materia);
     }
 
     @GET
-    @Path("/todos")
+    @Path("")
     public List<Materia> listarTodas() {
         return materiaService.listarTodas();
     }   
@@ -38,31 +38,31 @@ public class MateriaResource {
     }
 
     @PUT
-    @Path("/actualizar/{id}")
+    @Path("/{id}")
     public void actualizarMateria(@PathParam("id") Integer iden, Materia materia) {
         materiaService.actualizarMateria(iden, materia);
     }
 
     @PATCH
-    @Path("/actualizarParcial/{id}")
+    @Path("/{id}")
     public void actualizarMateriaParcial(@PathParam("id") Integer iden, Materia materia) {
         materiaService.actualizarMateriaParcial(iden, materia);
     }
 
     @DELETE
-    @Path("/borrar/{id}")
+    @Path("/{id}")
     public void borrarMateria(@PathParam("id") Integer iden) {
         materiaService.eliminarMateria(iden);
     }
     
     @GET
-    @Path("/creditos/{creditos}")
+    @Path("/{creditos}")
     public List<Materia> listarMateriasPorCreditos(@PathParam("creditos") String creditos) {
         return materiaService.listarMateriasPorCreditos(creditos);
     }
 
     @DELETE
-    @Path("/borrarPorCodigo/{codigo}")
+    @Path("/{codigo}")
     public void borrarMateriasPorCodigo(@PathParam("codigo") String codigo) {
         materiaService.elimnarPorCodigo(codigo);
     }
