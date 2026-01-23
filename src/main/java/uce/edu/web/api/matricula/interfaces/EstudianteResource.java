@@ -11,6 +11,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Response;
 import uce.edu.web.api.matricula.application.EstudianteService;
 import uce.edu.web.api.matricula.domain.Estudiante;
 
@@ -35,20 +36,23 @@ public class EstudianteResource {
 
     @POST
     @Path("")
-    public void guardarEstudiante(Estudiante estudiante) {
+    public Response guardarEstudiante(Estudiante estudiante) {
         estudianteService.crearEstudiante(estudiante);
+        return Response.status(Response.Status.CREATED).entity(estudiante).build();
     }
+    
 
     @PUT
     @Path("/{id}")
-    public void actualizarEstudiante(@PathParam("id") Integer iden, Estudiante estudiante) {
+    public  void ctualizarEstudiante(@PathParam("id") Integer iden, Estudiante estudiante) {
         estudianteService.actualizarEstudiante(iden, estudiante);
     }
 
     @PATCH
     @Path("/{id}")
-    public void actualizarEstudianteParcial(@PathParam("id") Integer iden, Estudiante estudiante) {
+    public Response actualizarEstudianteParcial(@PathParam("id") Integer iden, Estudiante estudiante) {
         estudianteService.actualizarEstudianteParcial(iden, estudiante);
+        return Response.status(209).entity(null).build();
     }
 
     @DELETE
@@ -59,7 +63,7 @@ public class EstudianteResource {
 
     @GET
     @Path("/provincia/genero")
-    public List<Estudiante> buscarPorProvincia(@QueryParam("provincia") String provincia, @QueryParam("genero") String genero) {
+    public List<Estudiante> buscarPorProvincia(@QueryParam("provinciia") String provincia, @QueryParam("genero") String genero) {
        System.out.println("buscarPorProvincia: " + provincia + ", genero: " + genero);
         return estudianteService.buscarPorProvincia(provincia, genero);
     }

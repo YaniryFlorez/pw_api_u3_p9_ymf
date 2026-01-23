@@ -34,6 +34,7 @@ public class MateriaService {
         mat.codigo = materia.codigo;
         mat.creditos = materia.creditos;
         mat.descripcion = materia.descripcion;
+        
         // se actualiza automaticamente por dirty checking
     }
 
