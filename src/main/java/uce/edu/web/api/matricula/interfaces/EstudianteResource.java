@@ -7,10 +7,12 @@ import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import uce.edu.web.api.matricula.application.EstudianteService;
 import uce.edu.web.api.matricula.domain.Estudiante;
@@ -22,14 +24,17 @@ public class EstudianteResource {
 
     @GET
     @Path("")
+    @Produces(MediaType.APPLICATION_JSON)
     public List<Estudiante> listarTodos() {
         System.out.println("listarTodos");
         return estudianteService.listarTodos();
-        
+
     }
 
     @GET
     @Path("/{id}")
+    @Produces(MediaType.APPLICATION_XML)
+
     public Estudiante consulEstudiantePorId(@PathParam("id") Integer iden) {
         return estudianteService.consulEstudiantePorId(iden);
     }
@@ -40,11 +45,10 @@ public class EstudianteResource {
         estudianteService.crearEstudiante(estudiante);
         return Response.status(Response.Status.CREATED).entity(estudiante).build();
     }
-    
 
     @PUT
     @Path("/{id}")
-    public  void ctualizarEstudiante(@PathParam("id") Integer iden, Estudiante estudiante) {
+    public void ctualizarEstudiante(@PathParam("id") Integer iden, Estudiante estudiante) {
         estudianteService.actualizarEstudiante(iden, estudiante);
     }
 
@@ -63,8 +67,10 @@ public class EstudianteResource {
 
     @GET
     @Path("/provincia/genero")
-    public List<Estudiante> buscarPorProvincia(@QueryParam("provinciia") String provincia, @QueryParam("genero") String genero) {
-       System.out.println("buscarPorProvincia: " + provincia + ", genero: " + genero);
+
+    public List<Estudiante> buscarPorProvincia(@QueryParam("provinciia") String provincia,
+            @QueryParam("genero") String genero) {
+        System.out.println("buscarPorProvincia: " + provincia + ", genero: " + genero);
         return estudianteService.buscarPorProvincia(provincia, genero);
     }
 
