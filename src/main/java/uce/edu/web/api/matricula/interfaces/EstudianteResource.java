@@ -34,7 +34,6 @@ public class EstudianteResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_XML)
-
     public Estudiante consulEstudiantePorId(@PathParam("id") Integer iden) {
         return estudianteService.consulEstudiantePorId(iden);
     }
@@ -68,7 +67,7 @@ public class EstudianteResource {
     @GET
     @Path("/provincia/genero")
 
-    public List<Estudiante> buscarPorProvincia(@QueryParam("provinciia") String provincia,
+    public List<Estudiante> buscarPorProvincia(@QueryParam("provincia") String provincia,
             @QueryParam("genero") String genero) {
         System.out.println("buscarPorProvincia: " + provincia + ", genero: " + genero);
         return estudianteService.buscarPorProvincia(provincia, genero);

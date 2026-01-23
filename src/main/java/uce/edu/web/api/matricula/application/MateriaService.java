@@ -70,4 +70,8 @@ public class MateriaService {
         materiaRepository.delete("codigo", codigo);
     }   
 
+    public List<Materia> buscarPorCodigoYCreditos(String codigo, Integer creditos) {
+        return materiaRepository.find("codigo = ?1 and creditos = ?2", codigo, creditos).list();
+    }
+
 }
