@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import uce.edu.web.api.matricula.application.Representation.EstudianteRepresentation;
 import uce.edu.web.api.matricula.domain.Estudiante;
 import uce.edu.web.api.matricula.infraestructure.EstudianteRepository;
 
@@ -19,8 +20,8 @@ public class EstudianteService {
         return estudianteRepository.listAll();
     }
 
-    public Estudiante consulEstudiantePorId(Integer id) {
-        return estudianteRepository.findById(id.longValue());
+    public EstudianteRepresentation consulEstudiantePorId(Integer id) {
+        return this.mapperToER(this.estudianteRepository.findById(id.longValue()));
     }
 
     @Transactional
@@ -29,8 +30,8 @@ public class EstudianteService {
     }
 
     @Transactional
-    public void actualizarEstudiante(Integer id, Estudiante estudiante) {
-        Estudiante estu = this.consulEstudiantePorId(id);
+    public void actualizarEstudiante(Integer id, EstudianteRepresentation estudiante) {
+        Estudiante estu = this.mapperToEstudiante(this.consulEstudiantePorId(id));
         estu.nombre = estudiante.nombre;
         estu.apellido = estudiante.apellido;
         estu.fechaNacimiento = estudiante.fechaNacimiento;
@@ -39,8 +40,8 @@ public class EstudianteService {
     }
 
     @Transactional
-    public void actualizarEstudianteParcial(Integer id, Estudiante estudiante) {
-        Estudiante estu = this.consulEstudiantePorId(id);
+    public void actualizarEstudianteParcial(Integer id, EstudianteRepresentation estudiante) {
+        Estudiante estu = this.mapperToEstudiante(this.consulEstudiantePorId(id));
         if (estudiante.nombre != null) {
             estu.nombre = estudiante.nombre;
         }
@@ -68,5 +69,27 @@ public class EstudianteService {
         return estudianteRepository.find("provincia = ?1 and genero = ?2", provincia, genero).list();
     }
 
+    private EstudianteRepresentation mapperToER( Estudiante estudiante) {
+        EstudianteRepresentation estudianteRepresentation = new EstudianteRepresentation();
+        estudianteRepresentation.id = estudiante.id;
+        estudianteRepresentation.nombre = estudiante.nombre;
+        estudianteRepresentation.apellido = estudiante.apellido;
+        estudianteRepresentation.fechaNacimiento = estudiante.fechaNacimiento;
+        estudianteRepresentation.provincia = estudiante.provincia;
+        estudianteRepresentation.genero = estudiante.genero;
+        return estudianteRepresentation;
+    }
+
+    private Estudiante  mapperToEstudiante( EstudianteRepresentation estudiante) {
+        Estudiante estudianteDomain = new Estudiante();
+        estudianteDomain.id = estudiante.id;
+        estudianteDomain.nombre = estudiante.nombre;
+        estudianteDomain.apellido = estudiante.apellido;
+        estudianteDomain.fechaNacimiento = estudiante.fechaNacimiento;
+        estudianteDomain.provincia = estudiante.provincia;
+        estudianteDomain.genero = estudiante.genero;
+        return estudianteDomain;
+      
+    }
 
 }
