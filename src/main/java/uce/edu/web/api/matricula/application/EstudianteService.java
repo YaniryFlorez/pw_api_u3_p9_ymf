@@ -1,5 +1,6 @@
 package uce.edu.web.api.matricula.application;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -16,8 +17,12 @@ public class EstudianteService {
     @Inject
     EstudianteRepository estudianteRepository;
 
-    public List<Estudiante> listarTodos() {
-        return estudianteRepository.listAll();
+    public List<EstudianteRepresentation> listarTodos() {
+        List<EstudianteRepresentation> listaEstudiantesR = new ArrayList<>();
+        for (Estudiante est : this.estudianteRepository.listAll()) {
+            listaEstudiantesR.add(this.mapperToER(est));
+        }
+        return listaEstudiantesR;
     }
 
     public EstudianteRepresentation consulEstudiantePorId(Integer id) {
@@ -25,8 +30,8 @@ public class EstudianteService {
     }
 
     @Transactional
-    public void crearEstudiante(Estudiante estudiante) {
-        estudianteRepository.persist(estudiante);
+    public void crearEstudiante(EstudianteRepresentation estu) {
+        estudianteRepository.persist(this.mapperToEstudiante(estu));
     }
 
     @Transactional
@@ -51,45 +56,52 @@ public class EstudianteService {
         if (estudiante.fechaNacimiento != null) {
             estu.fechaNacimiento = estudiante.fechaNacimiento;
         }
-        if(estudiante.provincia != null) {
+        if (estudiante.provincia != null) {
             estu.provincia = estudiante.provincia;
-        }   
+        }
         // se actualiza automaticamente por dirty checking
     }
+
     @Transactional
     public void eliminarEstudiante(Integer id) {
         estudianteRepository.deleteById(id.longValue());
     }
 
-   /* public List<Estudiante> buscarPorProvincia(String provincia) {
-        return estudianteRepository.find("provincia", provincia).list();
-    }*/
+    /*
+     * public List<Estudiante> buscarPorProvincia(String provincia) {
+     * return estudianteRepository.find("provincia", provincia).list();
+     * }
+     */
 
-     public List<Estudiante> buscarPorProvincia(String provincia, String genero) {
-        return estudianteRepository.find("provincia = ?1 and genero = ?2", provincia, genero).list();
+    public List<EstudianteRepresentation> buscarPorProvincia(String provincia, String genero) {
+        List<EstudianteRepresentation> listaEstudiantesR = new ArrayList<>();
+        for (Estudiante estu : estudianteRepository.find("provincia = ?1 and genero = ?2", provincia, genero).list()) {
+            listaEstudiantesR.add(this.mapperToER(estu));
+        }
+        return listaEstudiantesR;
     }
 
-    private EstudianteRepresentation mapperToER( Estudiante estudiante) {
-        EstudianteRepresentation estudianteRepresentation = new EstudianteRepresentation();
-        estudianteRepresentation.id = estudiante.id;
-        estudianteRepresentation.nombre = estudiante.nombre;
-        estudianteRepresentation.apellido = estudiante.apellido;
-        estudianteRepresentation.fechaNacimiento = estudiante.fechaNacimiento;
-        estudianteRepresentation.provincia = estudiante.provincia;
-        estudianteRepresentation.genero = estudiante.genero;
-        return estudianteRepresentation;
+    private EstudianteRepresentation mapperToER(Estudiante est) {
+        EstudianteRepresentation estuR = new EstudianteRepresentation();
+        estuR.id = est.id;
+        estuR.nombre = est.nombre;
+        estuR.apellido = est.apellido;
+        estuR.fechaNacimiento = est.fechaNacimiento;
+        estuR.provincia = est.provincia;
+        estuR.genero = est.genero;
+        return estuR;
     }
 
-    private Estudiante  mapperToEstudiante( EstudianteRepresentation estudiante) {
-        Estudiante estudianteDomain = new Estudiante();
-        estudianteDomain.id = estudiante.id;
-        estudianteDomain.nombre = estudiante.nombre;
-        estudianteDomain.apellido = estudiante.apellido;
-        estudianteDomain.fechaNacimiento = estudiante.fechaNacimiento;
-        estudianteDomain.provincia = estudiante.provincia;
-        estudianteDomain.genero = estudiante.genero;
-        return estudianteDomain;
-      
+    private Estudiante mapperToEstudiante(EstudianteRepresentation est) {
+        Estudiante estuR = new Estudiante();
+        estuR.id = est.id;
+        estuR.nombre = est.nombre;
+        estuR.apellido = est.apellido;
+        estuR.fechaNacimiento = est.fechaNacimiento;
+        estuR.provincia = est.provincia;
+        estuR.genero = est.genero;
+        return estuR;
+
     }
 
 }
