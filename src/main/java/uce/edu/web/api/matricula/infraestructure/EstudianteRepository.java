@@ -6,6 +6,8 @@ import uce.edu.web.api.matricula.domain.Estudiante;
 
 @ApplicationScoped
 public class EstudianteRepository implements PanacheRepository<Estudiante> {
-    
+     public Estudiante buscarPorNombre(String nombre) {
+        return find("nombre", nombre).firstResult();
+    }
 
 }
